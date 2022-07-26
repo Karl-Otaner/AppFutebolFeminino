@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel;
 
 import com.dio.soccernews.data.remote.SoccerNewsApi;
 import com.dio.soccernews.domain.News;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.List;
 
@@ -23,7 +25,9 @@ public class NewsViewModel extends ViewModel {
     public NewsViewModel() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://karl-otaner.github.io/ApiFutebolFeminino/")
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder()
+                        .setLenient()
+                        .create()))
                 .build();
         api = retrofit.create(SoccerNewsApi.class);
         this.findNews();
