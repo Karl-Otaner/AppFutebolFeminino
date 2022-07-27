@@ -1,14 +1,15 @@
 package com.dio.soccernews.ui.adapter;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dio.soccernews.R;
 import com.dio.soccernews.databinding.NewsItemBinding;
 import com.dio.soccernews.domain.News;
 import com.squareup.picasso.Picasso;
@@ -17,10 +18,12 @@ import java.util.List;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
-    private List<News> news;
+    private final List<News> news;
+    private final FavoriteListener favoriteListener;
 
-    public NewsAdapter(List<News> news) {
+    public NewsAdapter(List<News> news, FavoriteListener favoriteListener) {
         this.news = news;
+        this.favoriteListener = favoriteListener;
     }
 
 
@@ -34,26 +37,33 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Context context = holder.itemView.getContext();
         News news = this.news.get(position);
-        holder.binding.tvTitle.setText(news.getTitle());
-        holder.binding.tvDescription.setText(news.getDescription());
-        Picasso.get().load(news.getImage()).fit().into(holder.binding.ivThumbnail);
-        //Implementação da funcionalidade de abrir link
+        holder.binding.tvTitle.setText(news.title);
+        holder.binding.tvDescription.setText(news.description);
+        Picasso.get().load(news.image).fit().into(holder.binding.ivThumbnail);
+        //Implementação da funcionalidade de Abrir link
         holder.binding.btOpenLink.setOnClickListener(view -> {
             Intent i = new Intent(Intent.ACTION_VIEW);
-            i.setData(Uri.parse(news.getLink()));
-            holder.itemView.getContext().startActivity(i);
+            i.setData(Uri.parse(news.link));
+            context.startActivity(i);
         });
-        //Implementação da funcionalidade de compartilhar
+        //Implementação da funcionalidade de Compartilhar
         holder.binding.ivShare.setOnClickListener(view -> {
             Intent i = new Intent(Intent.ACTION_SEND);
             i.setType("Text/Plain");
-            i.putExtra(Intent.EXTRA_TEXT, news.getLink());
-            holder.itemView.getContext().startActivity(Intent.createChooser(i, "Share"));
+            i.putExtra(Intent.EXTRA_TEXT, news.link);
+            context.startActivity(Intent.createChooser(i, "Share"));
 
         });
-
-
+        //Implementar da funcionalidade favoritar (o evento será instanciado pelo Fragment
+        holder.binding.ivFavorite.setOnClickListener(view -> {
+            news.favorite = !news.favorite;
+            this.favoriteListener.onFavorite(news);
+            notifyItemChanged(position);
+        });
+        int favoriteColor = news.favorite ? R.color.favorite_active : R.color.favorite_inactive;
+        holder.binding.ivFavorite.setColorFilter(context.getResources().getColor(favoriteColor));
 
     }
 
@@ -69,5 +79,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             super(binding.getRoot());
             this.binding = binding;
         }
+    }
+
+    public interface FavoriteListener {
+        void onFavorite(News news);
+
     }
 }
