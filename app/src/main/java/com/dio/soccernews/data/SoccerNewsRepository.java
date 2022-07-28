@@ -5,7 +5,6 @@ import androidx.room.Room;
 import com.dio.soccernews.App;
 import com.dio.soccernews.data.local.SoccerNewsDb;
 import com.dio.soccernews.data.remote.SoccerNewsApi;
-
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 

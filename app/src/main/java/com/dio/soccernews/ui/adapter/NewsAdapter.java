@@ -5,15 +5,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.dio.soccernews.R;
 import com.dio.soccernews.databinding.NewsItemBinding;
 import com.dio.soccernews.domain.News;
 import com.squareup.picasso.Picasso;
-
 import java.util.List;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
