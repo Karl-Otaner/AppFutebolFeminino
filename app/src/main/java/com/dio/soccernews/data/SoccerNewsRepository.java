@@ -25,7 +25,7 @@ public class SoccerNewsRepository {
    //endregion
 
    //region Singleton: garante uma instância única dos atributos relacionados ao Retrofit e Room.
-   private SoccerNewsRepository(){
+   private SoccerNewsRepository () {
       remoteApi = new Retrofit.Builder()
               .baseUrl(REMOTE_API_URL)
               .addConverterFactory(GsonConverterFactory.create())

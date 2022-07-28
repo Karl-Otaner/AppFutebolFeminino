@@ -38,6 +38,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Context context = holder.itemView.getContext();
+
         News news = this.news.get(position);
         holder.binding.tvTitle.setText(news.title);
         holder.binding.tvDescription.setText(news.description);

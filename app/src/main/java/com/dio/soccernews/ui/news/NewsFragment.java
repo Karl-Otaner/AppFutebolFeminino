@@ -23,8 +23,7 @@ public class NewsFragment extends Fragment {
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-         newsViewModel = new ViewModelProvider(this).get(NewsViewModel.class);
+        newsViewModel = new ViewModelProvider(this).get(NewsViewModel.class);
 
         binding = FragmentNewsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -39,9 +38,9 @@ public class NewsFragment extends Fragment {
         return root;
     }
 
-    public void observeNews() {
+    private void observeNews() {
         newsViewModel.getNews().observe(getViewLifecycleOwner(), news -> {
-            binding.rvNews.setAdapter(new NewsAdapter(news, FavoritesViewModel::saveNews));
+            binding.rvNews.setAdapter(new NewsAdapter(news, newsViewModel::saveNews));
         });
     }
 

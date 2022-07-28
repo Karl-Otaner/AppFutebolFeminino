@@ -22,7 +22,7 @@ public class FavoritesViewModel extends ViewModel {
         return SoccerNewsRepository.getInstance().getLocalDb().newsDao().loadFavoriteNews();
     }
 
-    public static void saveNews(News news){
+    public void saveNews(News news){
         AsyncTask.execute(() ->SoccerNewsRepository.getInstance().getLocalDb().newsDao().save(news));
 
     }
